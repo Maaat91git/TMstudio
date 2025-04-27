@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - TM Studio</title>
+    <!-- ファビコン -->
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- カスタムCSS -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">TM Studio</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/category/all">PRODUCTS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">ABOUT</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">CONTACT</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="d-flex">
+                <a href="/cart" class="text-decoration-none text-dark">CART (<%= getCartCount(cart) %>)</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <!-- サイドバーカテゴリー -->
+            <div class="col-md-3 categories-sidebar">
+                <h2>PRODUCTS</h2>
+                <ul>
+                    <li><a href="/category/light" class="<%= category === 'LIGHT' ? 'fw-bold' : '' %>">LIGHT</a></li>
+                    <li><a href="/category/accessory" class="<%= category === 'ACCESSORY' ? 'fw-bold' : '' %>">ACCESSORY</a></li>
+                    <li><a href="/category/apparel" class="<%= category === 'APPAREL' ? 'fw-bold' : '' %>">APPAREL</a></li>
+                    <li><a href="/category/ordermade" class="<%= category === 'ORDERMADE' ? 'fw-bold' : '' %>">ORDERMADE</a></li>
+                </ul>
+                
+                <div class="mt-5">
+                    <a href="/category/all" class="d-flex align-items-center text-decoration-none text-dark">
+                        ALL PRODUCTS
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right ms-2" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- 商品一覧 -->
+            <div class="col-md-9">
+                <div class="category-products">
+                    <h2><%= category %></h2>
+                    
+                    <div class="row">
+                        <% products.forEach(product => { %>
+                            <div class="col-md-4">
+                                <div class="product-card">
+                                    <a href="/product/<%= product.id %>" class="text-decoration-none text-dark">
+                                        <div class="product-image">
+                                            <img src="<%= product.image %>" alt="<%= product.name %>">
+                                            <% if(product.isNew) { %>
+                                                <div class="product-badge">NEW</div>
+                                            <% } %>
+                                            <% if(product.limited) { %>
+                                                <div class="product-limited">受注生産限定</div>
+                                            <% } %>
+                                        </div>
+                                        <h3 class="product-name"><%= product.name %></h3>
+                                        <p class="product-jp-name"><%= product.jaName %></p>
+                                        <p class="product-price">¥<%= product.price.toLocaleString() %> (with tax)</p>
+                                        <p class="product-colors">
+                                            <% if (product.category === 'ACCESSORY') { %>
+                                                <%= product.colors %>タイプ
+                                            <% } else { %>
+                                                <%= product.colors %>カラー
+                                            <% } %>
+                                        </p>
+                                    </a>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
