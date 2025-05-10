@@ -8,10 +8,44 @@ app.set('views', path.join(__dirname, '../views'));
 
 // 静的ファイルの提供
 app.use(express.static(path.join(__dirname, '../public')));
+app.use('/images', express.static(path.join(__dirname, '../public/images')));
+app.use('/css', express.static(path.join(__dirname, '../public/css')));
 
 // ルートの設定
 app.get('/', (req, res) => {
-  res.render('index', { title: 'ホーム' });
+  res.render('index', { 
+    title: 'ホーム',
+    cart: [],
+    getCartCount: (cart) => cart.reduce((total, item) => total + item.quantity, 0)
+  });
+});
+
+// カテゴリーページのルート
+app.get('/category/:category', (req, res) => {
+  const category = req.params.category.toUpperCase();
+  
+  // 仮の商品データ
+  const products = [
+    {
+      id: 1,
+      name: 'Sample Product',
+      jaName: 'サンプル商品',
+      price: 10000,
+      image: 'https://placehold.co/400x400/f5f5f5/333?text=Product',
+      isNew: true,
+      limited: false,
+      colors: '3',
+      category: 'LIGHT'
+    }
+  ];
+  
+  res.render('category', { 
+    title: category,
+    category: category,
+    products: products,
+    cart: [],
+    getCartCount: (cart) => cart.reduce((total, item) => total + item.quantity, 0)
+  });
 });
 
 // カートページのルート
