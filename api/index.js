@@ -30,9 +30,36 @@ app.use((req, res, next) => {
 // ルートの設定
 app.get('/', (req, res, next) => {
   try {
+    // 新着商品のサンプルデータ
+    const newProducts = [
+      {
+        id: 1,
+        name: 'New Product 1',
+        jaName: '新商品1',
+        price: 15000,
+        image: 'https://placehold.co/400x400/f5f5f5/333?text=New+Product+1',
+        isNew: true,
+        limited: false,
+        colors: '3',
+        category: 'LIGHT'
+      },
+      {
+        id: 2,
+        name: 'New Product 2',
+        jaName: '新商品2',
+        price: 20000,
+        image: 'https://placehold.co/400x400/f5f5f5/333?text=New+Product+2',
+        isNew: true,
+        limited: true,
+        colors: '2',
+        category: 'ACCESSORY'
+      }
+    ];
+
     res.render('index', { 
       title: 'ホーム',
       cart: [],
+      newProducts: newProducts,
       getCartCount: (cart) => cart.reduce((total, item) => total + item.quantity, 0)
     });
   } catch (error) {
