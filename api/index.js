@@ -1,6 +1,15 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const session = require('express-session');
+
+// セッションの設定
+app.use(session({
+    secret: 'tm-studio-secret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // 開発環境ではfalse
+}));
 
 // エラーハンドリング用のミドルウェア
 app.use((err, req, res, next) => {
