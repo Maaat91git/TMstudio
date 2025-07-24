@@ -151,4 +151,12 @@ app.use((req, res) => {
 });
 
 // Vercel用のエクスポート
-module.exports = app; 
+module.exports = app;
+
+// ローカル開発用のサーバー起動
+if (require.main === module) {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`サーバーが起動しました: http://localhost:${PORT}`);
+  });
+} 
